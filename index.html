@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PROMO KHUSUS JUM'AT-MINGGU — Katalog & Order</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fdeaf3;--card:#fff0f6;--accent:#ff7fb3;--accent-dark:#cc2e6a;--muted:#8b4a66;--glass:rgba(255,255,255,0.6)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Poppins,system-ui,Segoe UI,Roboto,Arial;background:linear-gradient(180deg,#ffeef6,#ffdce9);color:var(--muted)}
+header{display:flex;gap:16px;align-items:center;padding:18px 20px;background:linear-gradient(90deg,var(--accent),var(--accent-dark));color:#fff}
+header img.logo{width:86px;height:86px;border-radius:12px;object-fit:cover;box-shadow:0 8px 30px rgba(204,46,106,0.18)}
+header .brand{font-size:20px;font-weight:700;letter-spacing:0.6px}
+header .tag{font-size:12px;opacity:0.95}
+.container{max-width:1100px;margin:18px auto;padding:0 16px}
+.hero{background:linear-gradient(180deg,rgba(255,255,255,0.6),rgba(255,255,255,0.25));border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.6);margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);padding:18px;border-radius:14px;box-shadow:0 12px 30px rgba(204,46,106,0.06);border:1px solid rgba(255,255,255,0.6)}
+.card h3{margin:0 0 10px;font-size:18px;color:var(--accent-dark)}
+.card p{margin:0 0 12px;color:#7a4860}
+.actions{display:flex;gap:8px;align-items:center;justify-content:flex-end}
+button.btn{cursor:pointer;padding:8px 12px;border-radius:28px;border:none;font-weight:700}
+button.outline{background:#fff;color:var(--accent-dark);border:1px solid rgba(0,0,0,0.06)}
+button.primary{background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:#fff}
+/* modal */
+.modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.45);z-index:120;opacity:0;visibility:hidden;transition:all .18s}
+.modal.open{opacity:1;visibility:visible}
+.modal-card{width:94%;max-width:520px;background:#fff;border-radius:12px;padding:16px;box-shadow:0 18px 40px rgba(0,0,0,0.18)}
+.modal-list{max-height:320px;overflow:auto;margin-top:8px}
+.modal-list option{padding:8px}
+.field{display:flex;gap:8px;margin-top:8px}
+.field input,.field select{flex:1;padding:10px;border-radius:8px;border:1px solid #eee}
+.small{font-size:13px;color:#8a5a78}
+/* floating WA */
+.wa-group{position:fixed;right:14px;bottom:20px;display:flex;flex-direction:column;gap:10px;z-index:140}
+.wa-btn{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:999px;background:linear-gradient(180deg,var(--accent),var(--accent-dark));color:#fff;text-decoration:none;box-shadow:0 12px 30px rgba(204,46,106,0.12)}
+footer{max-width:1100px;margin:24px auto;padding:18px;text-align:center;color:#fff;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:12px}
+@media(max-width:720px){header{padding:12px}header img.logo{width:64px;height:64px} .modal-card{padding:12px}}
+</style>
+</head>
+<body>
+    
+<!-- VIDEO TERSEMBUNYI + AUTOPLAY -->
+<video id="bgm" autoplay muted loop playsinline style="display:none;">
+  <source src="https://files.catbox.moe/su80gm.mp4" type="video/mp4">
+</video>
+
+<header>
+<img class="logo" src="https://files.catbox.moe/a974cx.jpg" alt="PROMO Logo">
+<div>
+<div class="brand">ALYASTORE✨</div>
+<div class="tag">Promo Special Free Fire, Mobile Legend & Social Media</div>
+</div>
+</header>
+<main class="container">
+<section class="hero">
+<h1 style="margin:0;color:var(--accent-dark)">Daftar Promo Special</h1>
+<p class="small">Klik "Daftar" untuk melihat paket & harga. Klik "Beli" untuk pesan cepat lewat WhatsApp.</p>
+</section>
+<div class="grid" id="productGrid"></div>
+</main>
+
+<!-- Modal -->
+<div class="modal" id="priceModal" role="dialog" aria-hidden="true">
+<div class="modal-card">
+<h3 id="modalTitle">Pilih Paket</h3>
+<div class="small">Lengkapi data sebelum pesan (jika diperlukan)</div>
+<div style="margin-top:10px">
+<label class="small">ID / Keterangan (opsional)</label>
+<input id="inputId" placeholder="ID / Nick / Keterangan (opsional)" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eee;margin-top:6px">
+</div>
+<div style="margin-top:10px">
+<label class="small">Pilih Paket</label>
+<select id="selectPackage" style="width:100%;padding:10px;border-radius:8px;border:1px solid #eee;margin-top:6px"></select>
+</div>
+<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+<button class="btn outline" onclick="closePriceModal()">Batal</button>
+<button class="btn primary" onclick="confirmPackage()">Pesan via WhatsApp</button>
+</div>
+</div>
+</div>
+
+<!-- Floating WhatsApp buttons -->
+<div class="wa-group">
+<a class="wa-btn" href="https://wa.me/6285837288017" target="_blank">💬 Chat Admin</a>
+<a class="wa-btn" id="orderNowBtn" href="https://wa.me/6285766283178?text=" target="_blank">🛒 Pesan Sekarang</a>
+</div>
+
+<footer>© Fast • Trusted • Safe. WA: +62 858-3728-8017</footer>
+
+<script>
+const WA_NUMBER = '6285837288017';
+
+const PRODUCTS = [
+{
+id:'panel_biasa',
+title:'Panel Biasa',
+desc:'Panel murah',
+packages:[
+['RAM 1GB','Rp 500'],
+['RAM 2GB','Rp 1.000'],
+['RAM 3GB','Rp 2.000'],
+['RAM 4GB','Rp 3.000'],
+['RAM 5GB','Rp 4.000'],
+['RAM 6GB','Rp 5.000'],
+['RAM 7GB','Rp 6.000'],
+['RAM 8GB','Rp 7.000'],
+['RAM 9GB','Rp 8.000'],
+['RAM 10GB','Rp 9.000'],
+['RAM UNLI','Rp 8.000']
+]
+},
+{
+id:'kebsos_tiktok', title:'Kebsos TikTok', desc:' Likes / Views / Save / Share',
+packages:[
+  // Like TikTok
+  ['Like 1.000 (no refill)','Rp 4.300'],['Like 2.000 (no refill)','Rp 5.500'],['Like 5.000 (no refill)','Rp 7.200'],['Like 7.000 (no refill)','Rp 8.500'],['Like 10.000 (no refill)','Rp 10.200'],['Like 30.000 (no refill)','Rp 16.300'],['Like 50.000 (no refill)','Rp 25.500'],
+  // View TikTok
+  ['View 1.000 (no refill)','Rp 4.200'],['View 2.000 (no refill)','Rp 4.700'],['View 3.000 (no refill)','Rp 5.300'],['View 5.000 (no refill)','Rp 6.400'],['View 10.000 (no refill)','Rp 7.700'],['View 30.000 (no refill)','Rp 13.500'],['View 45.000 (no refill)','Rp 16.300'],['View 50.000 (no refill)','Rp 19.400'],['View 100.000 (no refill)','Rp 27.500'],
+  // Save TikTok
+  ['Save 100 (no refill)','Rp 3.100'],['Save 200 (no refill)','Rp 4.100'],['Save 300 (no refill)','Rp 5.100'],['Save 500 (no refill)','Rp 6.200'],['Save 1.000 (no refill)','Rp 7.300'],['Save 3.000 (no refill)','Rp 8.700'],['Save 8.000 (no refill)','Rp 10.700'],['Save 16.000 (no refill)','Rp 16.300'],['Save 30.000 (no refill)','Rp 20.200'],
+  // Share TikTok
+  ['Share 100 (no refill)','Rp 3.200'],['Share 200 (no refill)','Rp 4.400'],['Share 300 (no refill)','Rp 4.500'],['Share 500 (no refill)','Rp 5.800'],['Share 800 (no refill)','Rp 6.300'],['Share 1.000 (no refill)','Rp 8.600'],['Share 1.500 (no refill)','Rp 10.400'],['Share 2.000 (no refill)','Rp 11.200']
+]
+},
+{
+id:'kebsos_ig', title:'Kebsos IG', desc:'Likes / View / Share ',
+packages:[
+  // Like IG
+  ['Like 100 (no refill)','Rp 3.500'],['Like 200 (no refill)','Rp 4.300'],['Like 300 (no refill)','Rp 5.300'],['Like 400 (no refill)','Rp 6.700'],['Like 500 (no refill)','Rp 7.200'],['Like 800 (no refill)','Rp 9.300'],['Like 1.000 (no refill)','Rp 11.200'],['Like 3.000 (no refill)','Rp 16.400'],['Like 5.000 (no refill)','Rp 24.700'],
+  // View IG
+  ['View 100 (no refill)','Rp 500'],['View 200 (no refill)','Rp 600'],['View 300 (no refill)','Rp 700'],['View 400 (no refill)','Rp 800'],['View 500 (no refill)','Rp 900'],['View 800 (no refill)','Rp 1.000'],['View 10.000 (no refill)','Rp 2.500'],['View 30.000 (no refill)','Rp 3.500'],['View 50.000 (no refill)','Rp 5.000'],['View 100.000 (no refill)','Rp 8.000'],['View 200.000 (no refill)','Rp 14.000'],
+  // Share IG
+  ['Share 100 (no refill)','Rp 1.000'],['Share 200 (no refill)','Rp 1.300'],['Share 300 (no refill)','Rp 2.200'],['Share 400 (no refill)','Rp 3.500'],['Share 500 (no refill)','Rp 4.200'],['Share 800 (no refill)','Rp 5.300'],['Share 1.000 (no refill)','Rp 6.500'],['Share 3.000 (no refill)','Rp 8.200'],['Share 5.000 (no refill)','Rp 9.700'],['Share 10.000 (no refill)','Rp 11.500'],['Share 20.000 (no refill)','Rp 14.700']
+]
+}
+];
+
+// Render product cards
+const grid = document.getElementById('productGrid');
+PRODUCTS.forEach((p,idx)=>{
+const card = document.createElement('div'); card.className='card';
+card.innerHTML = `
+<h3>${p.title}</h3>
+<p>${p.desc || ''}</p>
+<div style="display:flex;align-items:center;justify-content:space-between">
+<div style="font-size:13px;color:#9b5a79">Lihat paket & pesan lewat WhatsApp</div>
+<div class="actions">
+<button class="btn outline" onclick="openPriceModal(${idx})">Daftar</button>
+<button class="btn primary" onclick="quickBuy(${idx})">Beli</button>
+</div>
+</div>`;
+grid.appendChild(card);
+});
+
+// modal controls
+const modal = document.getElementById('priceModal');
+const modalTitle = document.getElementById('modalTitle');
+const selectPackage = document.getElementById('selectPackage');
+const inputId = document.getElementById('inputId');
+
+let currentProductIndex = null;
+
+function openPriceModal(index){
+const p = PRODUCTS[index]; currentProductIndex = index;
+modalTitle.textContent = `${p.title} — Pilih Paket`;
+selectPackage.innerHTML = '';
+const opt0 = document.createElement('option'); opt0.value=''; opt0.textContent='-- pilih paket --'; selectPackage.appendChild(opt0);
+// show main packages first
+p.packages.forEach(pk=>{
+const opt = document.createElement('option'); opt.value = pk.join(' | '); opt.textContent = `${pk[0]} — ${pk[1]}`; selectPackage.appendChild(opt);
+});
+// extras if any
+if(p.extra){
+const sep = document.createElement('option'); sep.disabled=true; sep.textContent='──────────── Extra / Special'; selectPackage.appendChild(sep);
+p.extra.forEach(pk=>{ const opt=document.createElement('option'); opt.value=pk.join(' | '); opt.textContent = `${pk[0]} — ${pk[1]}`; selectPackage.appendChild(opt); });
+}
+
+inputId.value='';
+modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+}
+function closePriceModal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
+
+function confirmPackage(){
+const p = PRODUCTS[currentProductIndex];
+const selected = selectPackage.value; if(!selected){alert('Silakan pilih paket');return}
+const note = inputId.value || '-';
+const [label,price] = selected.split(' | ');
+const pesan = `Halo kak, saya ingin order:%0AProduk: ${p.title}%0APaket: ${label}%0AHarga: ${price}%0AKeterangan: ${note}`;
+const url = `https://wa.me/${WA_NUMBER}?text=${pesan}`;
+window.open(url,'_blank'); closePriceModal();
+}
+
+// quick buy
+function quickBuy(index){
+const p = PRODUCTS[index];
+const pesan = encodeURIComponent(`Halo kak, saya ingin order: Produk: ${p.title} (paket belum dipilih)\nMohon bantuannya.`);
+window.open(`https://wa.me/${WA_NUMBER}?text=${pesan}`,'_blank');
+}
+
+document.getElementById('orderNowBtn').addEventListener('click', (e)=>{
+e.preventDefault();
+const msg = encodeURIComponent('Halo kak, saya mau order / tanya produk PROMO KHUSUS JUM\'AT-MINGGU');
+window.open(`https://wa.me/${WA_NUMBER}?text=${msg}`,'_blank');
+});
+</script>
+</body>
+</html>
